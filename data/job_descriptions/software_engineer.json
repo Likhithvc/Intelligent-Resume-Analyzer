@@ -1,0 +1,16 @@
+{
+  "title": "Software Engineer",
+  "required_skills": [
+    "Python",
+    "SQL",
+    "Git",
+    "REST API"
+  ],
+  "preferred_skills": [
+    "React",
+    "Docker",
+    "AWS"
+  ],
+  "min_experience": 2,
+  "education": "B.Tech"
+}

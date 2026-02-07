@@ -1,0 +1,11 @@
+Likhith V C
+Email: likhith@example.com
+
+Skills:
+Python, SQL, Machine Learning, React
+
+Experience:
+2 years experience in software development
+
+Education:
+B.Tech in Computer Science

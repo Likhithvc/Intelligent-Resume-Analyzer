@@ -1,0 +1,72 @@
+# ==============================
+# Virtual Environment
+# ==============================
+.venv/
+venv/
+env/
+
+# ==============================
+# Python Cache Files
+# ==============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# ==============================
+# Environment Variables / Secrets
+# ==============================
+.env
+.env.*
+*.env
+
+# ==============================
+# VS Code Settings
+# ==============================
+.vscode/
+
+# ==============================
+# OS Generated Files
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# Output / Generated Files
+# ==============================
+data/outputs/
+
+# If you want reports ignored but keep folder:
+# data/outputs/*
+# !data/outputs/.gitkeep
+
+# ==============================
+# Test / Coverage
+# ==============================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==============================
+# Jupyter Notebooks (if any)
+# ==============================
+.ipynb_checkpoints/
+
+# ==============================
+# Build / Distribution
+# ==============================
+build/
+dist/
+*.egg-info/
+
+# ==============================
+# Temporary Files
+# ==============================
+*.tmp
+*.temp
