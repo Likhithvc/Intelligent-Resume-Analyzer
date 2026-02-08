@@ -8,3 +8,14 @@ openai
 sentence-transformers
 scikit-learn
 numpy
+fuzzywuzzy
+python-Levenshtein
+pdfplumber
+transformers
+torch
+sentencepiece
+pandas
+openpyxl
+python-docx
+reportlab
+

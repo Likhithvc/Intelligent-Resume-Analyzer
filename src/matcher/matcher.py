@@ -1,17 +1,31 @@
 from src.ai_layer.scorer import semantic_match_score
+from fuzzywuzzy import fuzz
+
+
+def fuzzy_skill_match(candidate_skill, required_skill, threshold=85):
+    """Check similarity between skills."""
+
+    ratio = fuzz.ratio(
+        candidate_skill.lower(),
+        required_skill.lower()
+    )
+
+    return ratio >= threshold
 
 
 def match_skills(candidate_skills, job_skills):
-    """Return skill match percentage."""
+    """Fuzzy skill match percentage."""
 
     if not job_skills:
         return 0
 
     matched = 0
 
-    for skill in job_skills:
-        if skill in candidate_skills:
-            matched += 1
+    for req_skill in job_skills:
+        for cand_skill in candidate_skills:
+            if fuzzy_skill_match(cand_skill, req_skill):
+                matched += 1
+                break
 
     return matched / len(job_skills)
 
@@ -39,18 +53,23 @@ def match_candidate(candidate, job, resume_text, jd_text):
     # Education score
     edu_score = 1 if job.education in candidate.education else 0
 
-    # 🔹 NEW — AI Semantic Score
+    # 🔹 Rule-based score (WITHOUT semantic)
+    rule_score = (
+        required_score * 0.5 +
+        preferred_score * 0.2 +
+        exp_score * 0.2 +
+        edu_score * 0.1
+    )
+
+    # 🔹 AI Semantic Score
     semantic_score = semantic_match_score(
         resume_text,
         jd_text
     )
 
-    # 🔹 Updated weighted final score
+    # 🔹 Final Hybrid Score
     final_score = (
-        required_score * 0.4 +
-        preferred_score * 0.15 +
-        exp_score * 0.15 +
-        edu_score * 0.1 +
+        rule_score * 0.8 +
         semantic_score * 0.2
     )
 
@@ -59,6 +78,10 @@ def match_candidate(candidate, job, resume_text, jd_text):
         "preferred_skill_score": preferred_score,
         "experience_score": exp_score,
         "education_score": edu_score,
-        "semantic_score": semantic_score,
+
+        #IMPORTANT — Added for strategy layer
+        "rule_score": rule_score * 100,
+        "semantic_score": semantic_score * 100,
+
         "final_score": round(final_score * 100, 2)
     }
