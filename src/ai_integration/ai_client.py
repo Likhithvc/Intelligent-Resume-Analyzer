@@ -2,7 +2,8 @@ from transformers import pipeline
 
 summarizer = pipeline(
     "text-generation",
-    model="google/flan-t5-small"
+    model="tiiuae/falcon-rw-1b",
+    device=-1  # CPU
 )
 
 
@@ -11,15 +12,19 @@ def summarize_resume(resume_text: str):
     if not resume_text.strip():
         return "Resume content unavailable."
 
-    text = resume_text[:1500]
+    text = resume_text[:1200]
 
     prompt = f"""
-    Provide a professional hiring summary for this candidate:
+You are an HR assistant.
 
-    {text}
+Summarize the following resume for hiring evaluation.
+Focus on skills, experience, and strengths.
 
-    Summary:
-    """
+Resume:
+{text}
+
+Summary:
+"""
 
     result = summarizer(
         prompt,
@@ -29,7 +34,6 @@ def summarize_resume(resume_text: str):
 
     generated = result[0]["generated_text"]
 
-    # Remove prompt part
     summary = generated.split("Summary:")[-1].strip()
 
     return summary
