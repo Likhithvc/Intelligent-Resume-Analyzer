@@ -1,3 +1,6 @@
+from src.ai_layer.scorer import semantic_match_score
+
+
 def match_skills(candidate_skills, job_skills):
     """Return skill match percentage."""
 
@@ -13,8 +16,8 @@ def match_skills(candidate_skills, job_skills):
     return matched / len(job_skills)
 
 
-def match_candidate(candidate, job):
-    """Calculate overall match score."""
+def match_candidate(candidate, job, resume_text, jd_text):
+    """Calculate overall match score with AI layer."""
 
     # Skill scores
     required_score = match_skills(
@@ -36,12 +39,26 @@ def match_candidate(candidate, job):
     # Education score
     edu_score = 1 if job.education in candidate.education else 0
 
-    # Weighted final score
-    final_score = (
-        required_score * 0.5 +
-        preferred_score * 0.2 +
-        exp_score * 0.2 +
-        edu_score * 0.1
+    # 🔹 NEW — AI Semantic Score
+    semantic_score = semantic_match_score(
+        resume_text,
+        jd_text
     )
 
-    return round(final_score * 100, 2)
+    # 🔹 Updated weighted final score
+    final_score = (
+        required_score * 0.4 +
+        preferred_score * 0.15 +
+        exp_score * 0.15 +
+        edu_score * 0.1 +
+        semantic_score * 0.2
+    )
+
+    return {
+        "required_skill_score": required_score,
+        "preferred_skill_score": preferred_score,
+        "experience_score": exp_score,
+        "education_score": edu_score,
+        "semantic_score": semantic_score,
+        "final_score": round(final_score * 100, 2)
+    }

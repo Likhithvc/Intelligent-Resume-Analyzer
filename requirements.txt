@@ -4,3 +4,7 @@ PyPDF2
 openai
 tabulate
 pytest
+openai
+sentence-transformers
+scikit-learn
+numpy
